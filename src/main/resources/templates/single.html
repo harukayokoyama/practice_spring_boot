@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title>レシピ詳細画面</title>
+	<meta content="" name="description">
+	<meta content="" name="keywords">
+	<!-- jquery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+	<!-- bootstrap5(css) -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<!-- bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+	<!-- tag -->
+	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
+	<!-- Google Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css?family=https://fonts.googleapis.com/css?family=Inconsolata:400,500,600,700|Raleway:400,400i,500,500i,600,600i,700,700i"
+		rel="stylesheet">
+
+	<!-- Template Main CSS File -->
+	<link th:href="@{/css/assets/css/style.css}" rel="stylesheet">
+
+</head>
+
+<body>
+	<main id="main">
+		<section class="section">
+			<div class="container">
+				<div class="row mb-4 align-items-center">
+					<div class="col-md-6">
+						<h2>レシピ詳細</h2>
+					</div>
+				</div>
+			</div>
+
+			<div class="site-section pb-0">
+				<div class="container">
+					<div class="row align-items-stretch">
+						<!-- 
+						<div class="col-md-6">
+							<img th:src="@{/css/assets/img/img_1_big.jpg}" alt="Image" class="img-fluid">
+						</div>-->
+						<div class="col-md-5 ml-auto" th:object="${recipe}">
+							<div class="sticky-content">
+								<h3 class="h3 mb-3">[[*{recipeName}]]</h3>
+								<div class="mb-5">
+									<label for="memo" class="form-label">手順</label>
+									<pre id="memo">[[*{memo}]]</pre>
+								</div>
+								<h4 class="h4 mb-3">材料、分量</h4>
+								<ul class="list-unstyled list-line mb-5">
+									<li th:each="Ingredient : *{Ingredients}">
+										[[${Ingredient.name}]]　[[${Ingredient.quantity}]]
+									</li>
+								</ul>
+								<div class="mb-5">
+									<label for="tag" class="form-label">タグ</label>
+									<input name='tag' class="form-control" readonly th:value='*{tag}'>
+								</div>
+								<div class="d-flex flex-row">
+									<p class="mr-5"><a class="readmore" th:href="@{/edit(recipeId=*{recipeId})}"
+											role="button">編集</a></p>
+									<p class="mx-5"><a th:href="@{/top}" class="readmore">戻る</a></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	<script type="text/javascript">
+		var input = document.querySelector('input[name=tag]');
+		new Tagify(input);
+
+	</script>
+</body>
+
+</html>

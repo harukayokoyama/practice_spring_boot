@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mine.mapper.TagOriginalMapper">
+  <select id="selectByRecipeId" resultType="com.example.mine.entity.Tag">
+  	SELECT *
+  	FROM
+  		tag
+  	INNER JOIN
+  		recipe_tag_link AS link
+  		ON link.tag_id = tag.tag_id
+  		AND link.recipe_id = #{recipeId};
+  </select>
+</mapper>
