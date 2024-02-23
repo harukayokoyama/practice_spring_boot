@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.session.InvalidSessionStrategy;
 
+import com.example.mine.controller.MyAuthenticationFailureHandler;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 //@Profile("production")// spring security無効化する位一部
@@ -38,7 +40,7 @@ public class SecurityConfig {
 				// passwordのパラメータ名
 				.passwordParameter("password")
 				// 失敗時の遷移先
-				.failureUrl(ERROR_URL)
+				.failureHandler(new MyAuthenticationFailureHandler())
 				.permitAll())// 認証不要
 				/** ログアウト設定 */
 				.logout(logout -> logout
