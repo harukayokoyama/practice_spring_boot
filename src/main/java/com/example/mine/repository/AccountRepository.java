@@ -8,7 +8,7 @@ import com.example.mine.entity.UsersExample;
 import com.example.mine.mapper.UsersMapper;
 
 /**
- * User Repository
+ * Account Repository
  */
 @Repository
 public class AccountRepository {
@@ -17,14 +17,27 @@ public class AccountRepository {
 	UsersMapper usersMapper;
 	
 	/**
-	 * usernameで検索する
+	 * ユーザー名で検索する
 	 * 
 	 * @param userName
 	 * @return ユーザー情報
 	 */
 	public Users findByUserName(String userName) {
 		UsersExample exmaple = new UsersExample();
-		exmaple.createCriteria().andUserNameEqualTo(userName);
+		exmaple.createCriteria().andUsernameEqualTo(userName);
 		return usersMapper.selectByExample(exmaple).stream().findFirst().orElse(null);
 	}
+	
+	/**
+	 * ユーザー登録
+	 * @param username
+	 * @param password
+	 */
+	public void create(String username, String password) {
+		Users user = new Users();
+		user.setUsername(username);
+		user.setPassword(password);
+		usersMapper.insertSelective(user);
+	}
+	
 }

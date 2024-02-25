@@ -50,10 +50,11 @@ public class SecurityConfig {
 				/** アクセス制限設定 */
 				.authorizeHttpRequests(authz -> authz
 						.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()// 静的ファイルはアクセス制限しない
-						/** // ログイン処理に使うURLにはアクセス制限しない */
+						/** ログイン処理に使うURLにはアクセス制限しない */
 						.requestMatchers(LOGIN_URL1).permitAll()
 						.requestMatchers(LOGIN_URL2).permitAll()
 						.requestMatchers(ERROR_URL).permitAll()
+						.requestMatchers("signup").permitAll()
 						.anyRequest().authenticated());
 
 		/** セッション管理 */
