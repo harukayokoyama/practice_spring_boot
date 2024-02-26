@@ -114,5 +114,18 @@ public class RecipeDetailController {
 
 		return "edit";
 	}
+	
+	/**
+	 * レシピの削除
+	 * @param recipeId
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("/delete")
+	public String delete(@RequestParam("recipeId") Integer recipeId, Model model) {
+		recipeService.deleteRecipe(recipeId);
+		
+		return "redirect:/top";
+	}
 
 }

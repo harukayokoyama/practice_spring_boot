@@ -8,5 +8,10 @@ import com.example.mine.entity.Tag;
 
 @Mapper
 public interface TagOriginalMapper {
+	/**
+	 * レシピIDで取得
+	 * @param recipeId
+	 * @return
+	 */
     List<Tag> selectByRecipeId(Integer recipeId);
 }

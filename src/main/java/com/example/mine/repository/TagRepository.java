@@ -19,7 +19,7 @@ import com.example.mine.mapper.TagOriginalMapper;
 @Repository
 public class TagRepository {
 	@Autowired
-	TagMapper tagMapper;// private finalはいるのかな？
+	TagMapper tagMapper;
 	@Autowired
 	TagOriginalMapper tagOriginalMapper;
 	@Autowired
@@ -33,8 +33,15 @@ public class TagRepository {
 		return tagOriginalMapper.selectByRecipeId(recipeId);
 	}
 
+	/**
+	 * レシピIDで削除（リンクテーブルも一緒に削除）
+	 * @param recipeId
+	 */
 	public void deleteByRecipeId(int recipeId) {
 		List<Tag> deletetags = tagOriginalMapper.selectByRecipeId(recipeId);
+		if(deletetags.isEmpty()) {
+			return;
+		}
 		List<Integer> deleteTagIds = new ArrayList<>();
 		for (Tag tag : deletetags) {
 			deleteTagIds.add(tag.getTagId());

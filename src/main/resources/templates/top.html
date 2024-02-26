@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
-      lang="ja"
->
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+	lang="ja">
 
 <head>
 	<meta charset="UTF-8">
@@ -28,15 +26,17 @@
 	<main id="main">
 		<section class="section site-portfolio">
 			<div class="container">
-				<div class="row mb-5 align-items-center">
+				<div class="row mb-5 align-items-start">
 					<div class="col-md-12 col-lg-6 mb-4 mb-lg-0">
 						<h2>じぶんレシピ</h2>
 						<p class="mb-0">レシピのメモとして使ってください</p>
+						<div class="d-flex flex-row mb-3">
+							<p class="p-2"><a th:href="@{/register}" class="readmore">レシピ追加＋</a></p>
+						</div>
 					</div>
 					<div class="col-md-12 col-lg-6 text-start text-lg-end">
 						<div class="d-flex justify-content-end flex-row">
-							<p class="align-self-center">ログインユーザー：<span sec:authentication="name"></span></p>
-							<p class="mx-5"><a th:href="@{/register}" class="readmore">レシピ追加＋</a></p>
+							<p class="mt-2 mx-3">ログインユーザー：<span sec:authentication="name"></span></p>
 							<form th:action="@{/logout}" method="post">
 								<input type="submit" value="ログアウト" class="readmore" />
 							</form>

@@ -71,7 +71,9 @@
 								<div class="d-flex flex-row">
 									<p class="mr-5"><a class="readmore" th:href="@{/edit(recipeId=*{recipeId})}"
 											role="button">編集</a></p>
-									<p class="mx-5"><a th:href="@{/top}" class="readmore">戻る</a></p>
+									<p class="mx-5"><button class="readmore" data-bs-toggle="modal"
+											data-bs-target="#exampleModal">削除</button></p>
+									<p><a th:href="@{/top}" class="readmore">戻る</a></p>
 								</div>
 							</div>
 						</div>
@@ -79,6 +81,24 @@
 				</div>
 			</div>
 		</section>
+		<form th:action="@{/delete}" method="post" th:object="${recipe}">
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">レシピを削除しますか？</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-footer">
+							<a type="button" class="readmore" data-bs-dismiss="modal">キャンセル</a>
+							<input type="hidden" name="recipeId" th:value="*{recipeId}">
+							<p class="mr-5"><button type="submit" class="readmore">削除</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
 	</main>
 	<script type="text/javascript">
 		var input = document.querySelector('input[name=tag]');

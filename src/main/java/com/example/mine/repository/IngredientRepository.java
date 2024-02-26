@@ -43,4 +43,14 @@ public class IngredientRepository {
 		example.createCriteria().andRecipeIdEqualTo(recipeId);
 		return ingredientMapper.selectByExample(example);
 	}
+	
+	/**
+	 * レシピIDで削除
+	 * @param recipeId
+	 */
+	public void deleteById(Integer recipeId) {
+		IngredientExample example = new IngredientExample();
+		example.createCriteria().andRecipeIdEqualTo(recipeId);
+		ingredientMapper.deleteByExample(example);
+	}
 }

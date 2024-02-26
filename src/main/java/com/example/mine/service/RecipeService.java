@@ -146,4 +146,15 @@ public class RecipeService {
 
 		// TODO 画像
 	}
+	
+	/**
+	 * レシピ削除
+	 * @param recipeId
+	 */
+	@Transactional
+	public void deleteRecipe(Integer recipeId) {
+		tagRepository.deleteByRecipeId(recipeId);
+		ingredientRepository.deleteById(recipeId);
+		recipeRepository.deleteById(recipeId);
+	}	
 }

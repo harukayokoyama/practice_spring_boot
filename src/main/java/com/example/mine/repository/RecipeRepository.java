@@ -9,6 +9,7 @@ import com.example.mine.domain.RecipeDetailDto;
 import com.example.mine.domain.RecipeDto;
 import com.example.mine.entity.Recipe;
 import com.example.mine.entity.RecipeExample;
+import com.example.mine.entity.RecipeKey;
 import com.example.mine.mapper.RecipeMapper;
 import com.example.mine.mapper.RecipeOriginalMapper;
 
@@ -18,7 +19,7 @@ import com.example.mine.mapper.RecipeOriginalMapper;
 @Repository
 public class RecipeRepository {
 	@Autowired
-	RecipeMapper recipeMapper;// private finalはいるのかな？
+	RecipeMapper recipeMapper;
 	@Autowired
 	RecipeOriginalMapper recipeOriginalMapper;
 
@@ -50,9 +51,24 @@ public class RecipeRepository {
 		return recipeOriginalMapper.selectDetail(recipeId);
 	}
 	
+	/**
+	 * レシピIDで取得
+	 * @param recipeId
+	 * @return
+	 */
 	public Recipe selectById(Integer recipeId) {
 		RecipeExample example = new RecipeExample();
 		example.createCriteria().andRecipeIdEqualTo(recipeId);
 		return recipeMapper.selectByExample(example).stream().findFirst().orElse(null);
+	}
+	
+	/**
+	 * レシピIDで削除
+	 * @param recipeId
+	 */
+	public void deleteById(Integer recipeId) {
+		RecipeKey key = new RecipeKey();
+		key.setRecipeId(recipeId);
+		recipeMapper.deleteByPrimaryKey(key);
 	}
 }

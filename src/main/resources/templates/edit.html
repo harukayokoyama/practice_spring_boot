@@ -103,7 +103,7 @@
 												<td>
 													<input type="text"
 														th:field="*{ingredients[__${st.index}__].quantity}"
-														maxlength="100">	
+														maxlength="100">
 													<span
 														th:if="${#fields.hasErrors('*{ingredients[__${st.index}__].quantity}')}"
 														th:errors="*{ingredients[__${st.index}__].quantity}"
@@ -128,7 +128,8 @@
 											class="text-danger"></span>
 									</div>
 									<div class="d-flex flex-row">
-										<p class="mr-5"><button type="submit" name="next" class="readmore">変更</button></p>
+										<p class="mr-5"><button type="submit" name="next" class="readmore">変更</button>
+										</p>
 										<p class="mx-5"><a th:href="@{/single(recipeId=*{recipeId})}"
 												class="readmore">戻る</a></p>
 									</div>
