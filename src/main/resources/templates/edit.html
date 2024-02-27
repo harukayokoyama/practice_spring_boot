@@ -141,22 +141,19 @@
 			</form>
 		</section>
 	</main>
-	<script type="text/javascript">
-		var input = document.querySelector('input[name=tag]');
-		new Tagify(input);
-
-		// CSRF
-		/*
-		$(function () {
-			// メタタグに埋め込んだ情報を取得する
-			let token = $("meta[name='_csrf']").attr("content");
-			let header = $("meta[name='_csrf_header']").attr("content");
-	
-			// Ajax通信時に、リクエストヘッダにトークンを埋め込むよう記述
-			$(document).ajaxSend(function (e, xhr, options) {
-				xhr.setRequestHeader(header, token);
-			});
-		});*/
+	<script th:inline="javascript">
+		var input = document.querySelector('input[name=tag]'),
+			// init Tagify script on the above inputs
+			tagify = new Tagify(input, {
+				whitelist: /*[[${tags}]]*/'',
+				//maxTags: 10,
+				dropdown: {
+					maxItems: 20,           // <- mixumum allowed rendered suggestions
+					classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
+					enabled: 0,             // <- show suggestions on focus
+					closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
+				}
+			})
 
 	</script>
 

@@ -96,7 +96,7 @@
 												<td>
 													<input type="text"
 														th:field="*{ingredients[__${st.index}__].quantity}"
-														maxlength="100">	
+														maxlength="100">
 													<span
 														th:if="${#fields.hasErrors('*{ingredients[__${st.index}__].quantity}')}"
 														th:errors="*{ingredients[__${st.index}__].quantity}"
@@ -121,7 +121,8 @@
 											class="text-danger"></span>
 									</div>
 									<div class="d-flex flex-row">
-										<p class="mr-5"><button type="submit" name="next" class="readmore">登録</button></p>
+										<p class="mr-5"><button type="submit" name="next" class="readmore">登録</button>
+										</p>
 										<p class="mx-5"><a th:href="@{/top}" class="readmore">戻る</a></p>
 									</div>
 								</div>
@@ -132,25 +133,19 @@
 			</form>
 		</section>
 	</main>
-	<script type="text/javascript">
-		// The DOM element you wish to replace with Tagify
-		var input = document.querySelector('input[name=tag]');
-		// initialize Tagify on the above input node reference
-		new Tagify(input);
-
-		// CSRF
-		/*
-		$(function () {
-			// メタタグに埋め込んだ情報を取得する
-			let token = $("meta[name='_csrf']").attr("content");
-			let header = $("meta[name='_csrf_header']").attr("content");
-	
-			// Ajax通信時に、リクエストヘッダにトークンを埋め込むよう記述
-			$(document).ajaxSend(function (e, xhr, options) {
-				xhr.setRequestHeader(header, token);
-			});
-		});*/
-
+	<script th:inline="javascript">
+		var input = document.querySelector('input[name=tag]'),
+			// init Tagify script on the above inputs
+			tagify = new Tagify(input, {
+				whitelist: /*[[${tags}]]*/'',
+				//maxTags: 10,
+				dropdown: {
+					maxItems: 20,           // <- mixumum allowed rendered suggestions
+					classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
+					enabled: 0,             // <- show suggestions on focus
+					closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
+				}
+			})
 	</script>
 
 	<!-- Template Main JS File -->

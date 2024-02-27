@@ -13,4 +13,16 @@
 			AND link.recipe_id = #{recipeId}
 		</if>
 	</select>
+
+	<select id="selectByUsername" resultType="String">
+		SELECT
+		DISTINCT tag.tag_name
+		FROM
+		tag
+		<where>
+			<if test="username != null">
+			AND created_by = #{username}
+		</if>
+		</where>
+	</select>
 </mapper>

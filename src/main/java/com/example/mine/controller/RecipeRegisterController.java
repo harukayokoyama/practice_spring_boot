@@ -23,6 +23,7 @@ import com.example.mine.domain.RecipeRegisterForm;
 import com.example.mine.domain.RecipeRegisterForm.IngredientForm;
 import com.example.mine.entity.Ingredient;
 import com.example.mine.service.RecipeService;
+import com.example.mine.service.TagService;
 
 /**
  * レシピ登録画面・編集画面コントローラ
@@ -32,6 +33,8 @@ public class RecipeRegisterController {
 
 	@Autowired
 	RecipeService recipeService;
+	@Autowired	
+	TagService tagService;
 
 	@ModelAttribute
 	RecipeRegisterForm setUpForm() {
@@ -43,14 +46,17 @@ public class RecipeRegisterController {
 	 * @return
 	 */
 	@GetMapping("/register")
-	public String register(@ModelAttribute RecipeRegisterForm form) {
+	public String register(@ModelAttribute RecipeRegisterForm form, Model model,
+			@AuthenticationPrincipal UserDetails user) {
 		// リストの初期化（入力欄を常に1行以上表示する）
 		List<RecipeRegisterForm.IngredientForm> list = new ArrayList<RecipeRegisterForm.IngredientForm>();
 		RecipeRegisterForm.IngredientForm ingredient = new RecipeRegisterForm.IngredientForm();
 		list.add(ingredient);
 		form.setIngredients(list);
 		
-		// TODO タグを取得
+		// タグを取得（オートコンプリート用）
+		List<String> tags = tagService.getTagByUsername(user.getUsername());
+		model.addAttribute("tags", tags.isEmpty() ? new ArrayList<>() : tags);
 
 		return "register";
 	}
@@ -62,10 +68,14 @@ public class RecipeRegisterController {
 	 * @return
 	 */
 	@PostMapping(value = "/register", params = "addForm")
-	public String addList(@ModelAttribute RecipeRegisterForm form, Model model) {
+	public String addList(@ModelAttribute RecipeRegisterForm form, Model model,
+			@AuthenticationPrincipal UserDetails user) {
 
 		// リスト最後尾に1行追加
 		form.addList();
+
+		List<String> tags = tagService.getTagByUsername(user.getUsername());
+		model.addAttribute("tags", tags.isEmpty() ? new ArrayList<>() : tags);
 
 		return "register";
 	}

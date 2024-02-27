@@ -14,4 +14,12 @@ public interface TagOriginalMapper {
 	 * @return
 	 */
     List<Tag> selectByRecipeId(Integer recipeId);
+    
+
+    /**
+     * タグ名取得(重複排除)
+     * @param username
+     * @return
+     */
+    List<String> selectByUsername(String username);
 }

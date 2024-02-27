@@ -67,12 +67,21 @@ public class RecipeService {
 		}
 
 		// タグの登録
+		// すでに同じ名前のタグが登録されていた場合、そのidを使用する
 		for(String tag : dto.getTags()) {
-			Tag tagForInsert = new Tag();
-			tagForInsert.setTagName(tag);
-			tagForInsert.setCreatedBy(userName);
-			tagRepository.insert(tagForInsert);
-			recipeTagLinkRepository.insert(recipe.getRecipeId(), tagForInsert.getTagId());
+			Tag dbTag = tagRepository.selectByTagName(tag);
+			Integer tagId = null;
+			if(dbTag == null) {
+				Tag tagForInsert = new Tag();
+				tagForInsert.setTagName(tag);
+				tagForInsert.setCreatedBy(userName);
+				tagRepository.insert(tagForInsert);
+				tagId = tagForInsert.getTagId();
+			}else {
+				tagId = dbTag.getTagId();
+			}
+
+			recipeTagLinkRepository.insert(recipe.getRecipeId(), tagId);
 		}
 
 		// TODO 画像
@@ -135,13 +144,21 @@ public class RecipeService {
 		}
 
 		// TODO タグの更新　全部削除後再登録？
-		tagRepository.deleteByRecipeId(dto.getRecipeId());
+		// リンクテーブルのみ全部削除、タグテーブルにないタグのみ登録
+		recipeTagLinkRepository.deleteByRecipeId(dto.getRecipeId());
 		for(String tag : dto.getTags()) {
-			Tag tagForInsert = new Tag();
-			tagForInsert.setTagName(tag);
-			tagForInsert.setCreatedBy(userName);
-			tagRepository.insert(tagForInsert);
-			recipeTagLinkRepository.insert(recipe.getRecipeId(), tagForInsert.getTagId());
+			Tag dbTag = tagRepository.selectByTagName(tag);
+			Integer tagId = null;
+			if(dbTag == null) {
+				Tag tagForInsert = new Tag();
+				tagForInsert.setTagName(tag);
+				tagForInsert.setCreatedBy(userName);
+				tagRepository.insert(tagForInsert);
+				tagId = tagForInsert.getTagId();
+			}else {
+				tagId = dbTag.getTagId();
+			}
+			recipeTagLinkRepository.insert(recipe.getRecipeId(), tagId);
 		}
 
 		// TODO 画像
@@ -153,7 +170,7 @@ public class RecipeService {
 	 */
 	@Transactional
 	public void deleteRecipe(Integer recipeId) {
-		tagRepository.deleteByRecipeId(recipeId);
+		recipeTagLinkRepository.deleteByRecipeId(recipeId);// タグが増えていくばかりだが課題とする
 		ingredientRepository.deleteById(recipeId);
 		recipeRepository.deleteById(recipeId);
 	}	
